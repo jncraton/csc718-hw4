@@ -1,3 +1,74 @@
-% Title
-% Author
-% August 5th, 2018
+% Homework 4 MPI, OpenMP, and GPU Programming Assignments
+% Jon Craton
+% December 10th, 2019
+
+
+-------------------------------------------------------
+
+Due: Dec 10, by Midnight 2019
+
+Total: 100 points
+
+Note: For all the programming assignments, you can choose any operating
+systems you want. I will usually provide C/C++ samples for the
+programming assignments. If you prefer to use other languages, e.g.,
+Java, they are accepted too. A README.txt is required to submit any
+programming assignments. In the README.txt, you need to provide the
+following information:
+
+1)  How to compile your program?
+
+2)  How to run your program?
+
+3)  What is the average running time of your program?
+
+4)  What are the expected output results when I run your program?
+
+5)  Any descriptions which may help me to compile, run, and verify your
+    answers. (FYI: I check every programming assignment turned in!)
+
+Zip all you source code, project files, supporting files, and README.txt
+and submit the all-in-one zip file together to the D2L Dropbox. If you
+have any questions about the homework, please let me know.
+
+(10 points) What are the strengths and limitations of GPU programing?
+
+(15 points) Among the four parallel frameworks, multithreaded
+programming, MPI programming, openMP programming, and GPU programming
+(e.g., CUDA), we discussed in the class, what will be the strategies you
+are going to use in general when selecting a parallel framework for your
+applications?
+
+(10 points) Benchmarking of a sequential program reveals that 95 percent
+of the execution time is spent inside functions that are amendable to
+parallelization. What is the maximum speed up we could expect from
+executing a parallel version of this program on 10 processors?
+
+(65 points) Programming Assignment: A small college wishes to assign
+unique identification numbers to all of its present and future students.
+The administration is thinking of using a given various constraints that
+have been placed on what is considered to be an “acceptable” identifier.
+The “acceptable” identifier must meet the following constraints:
+
+-   The identifier is a six-digit combination of the numerals 0-9
+
+-   The first digit may not be a 0.
+
+-   Two consecutive digits may not be the same.
+
+-   The sum of the digits may not be 7, 11, or 13.
+
+1.  (15 points) Write a sequential program to count the different
+    identifiers given these constraints.
+
+2.  (25 points) Convert the sequential program to an MPI parallel
+    program.
+
+3.  (25 points) (choose only one: A or B, not both)
+
+    A.  Convert the sequential program to an openMP parallel program.
+
+    B.  Convert the sequential program to a GPU program using a parallel
+        framework at your choice (e.g., CUDA, OpenCL, etc.)
+
+
