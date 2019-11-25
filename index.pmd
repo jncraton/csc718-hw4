@@ -20,16 +20,30 @@ One of the most significant downsides of GPU compute is the inherent limitation 
 Problem 2
 =========
 
-(15 points) Among the four parallel frameworks, multithreaded
-programming, MPI programming, openMP programming, and GPU programming
-(e.g., CUDA), we discussed in the class, what will be the strategies you
-are going to use in general when selecting a parallel framework for your
-applications?
+> (15 points) Among the four parallel frameworks, multithreaded programming, MPI programming, openMP programming, and GPU programming (e.g., CUDA), we discussed in the class, what will be the strategies you are going to use in general when selecting a parallel framework for your applications?
 
-(10 points) Benchmarking of a sequential program reveals that 95 percent
-of the execution time is spent inside functions that are amendable to
-parallelization. What is the maximum speed up we could expect from
-executing a parallel version of this program on 10 processors?
+For me, the first step will be thinking about what the workload looks like for an application. I will first profile or reason about the application to determine where most of the work is being done. I will then consider these sections of code to determine if they can be run in parallel effectively.
+
+If they can be run in parallel, I'll think about several other considerations:
+
+1. How much is shared memory a requirement? If all data is dependent on all other data, multi-machine NUMA architectures (MPI) may not be effective.
+2. Is my workload mostly floating point with few branches? If not, GPUs may not be helpful.
+3. What compute resources are available? If I don't have a cluster at my disposal, the benefits of MPI are limited compared to shared memory architecures.
+4. Do I need total control? I'd favor using OpenMP over direct multithreaded programming unless I have a compelling reason to need that level of control.
+
+In essense, here's what I'd do:
+
+1. Look for time consuming sections of code that can be run in parallel. If they don't exist, wait a long time for execution or work on a tractable problem.
+2. Favor OpenMP over raw threaded programming. OpenMP is relatively quick and easy and can improve speed significantly.
+3. If I have a cluster available, and my workload is ammenable to NUMA, try OpenMPI.
+4. If I have a GPU available, and my workload uses floating point, try GPU programming.
+
+These can all be combined. A modern supercomputer will contain thousands of nodes, each with GPUs, so we'll likely need to employ multiprocessor message passing and GPU programming to fully optimize performance.
+
+Problem 3
+=========
+
+> (10 points) Benchmarking of a sequential program reveals that 95 percent of the execution time is spent inside functions that are amendable to parallelization. What is the maximum speed up we could expect from executing a parallel version of this program on 10 processors?
 
 (65 points) Programming Assignment: A small college wishes to assign
 unique identification numbers to all of its present and future students.
