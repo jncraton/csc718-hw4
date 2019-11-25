@@ -2,36 +2,23 @@
 % Jon Craton
 % December 10th, 2019
 
+Problem 1
+=========
 
--------------------------------------------------------
+> (10 points) What are the strengths and limitations of GPU programing?
 
-Due: Dec 10, by Midnight 2019
+GPU programming is very well suited for large numbers of floating point operations that can be executed in parallel. Historically, GPUs were design for rasterization of a large number of polygons into a frame of pixels to be displayed on screen. This process is inherently parallel and uses floating point operations exclusively, so GPUs have been optimized with this workload in mind.
 
-Total: 100 points
+GPUs are not well suited for integer calculations or branching. If code make heavy use of integer operations and branching it may not be well suited to run on a GPU or may need to be reworked significantly before it can run effectively.
 
-Note: For all the programming assignments, you can choose any operating
-systems you want. I will usually provide C/C++ samples for the
-programming assignments. If you prefer to use other languages, e.g.,
-Java, they are accepted too. A README.txt is required to submit any
-programming assignments. In the README.txt, you need to provide the
-following information:
+GPUs provide incredible numbers of raw floating point operations per second (FLOPS). My CPU can perform a few hundred GFLOPs in ideal conditions, while my GPU is cabable of over an order of magnitude more by computing at several TFLOPs.
 
-1)  How to compile your program?
+Part of the reason that GPUs are able to achieve this speed is by using a massively parallel architecture. GPUs may have thousands of compute nodes, while CPUs almost exclusively contain fewer than 100. In additional GPU compute makes extensive use of vector instructions to operate on many values at once. Modern x86 CPUs are limited to operating on 16 values at once due to the size of cache lines and limitation of the AVX-512 instruction set. GPUs do not share this limitation.
 
-2)  How to run your program?
+One of the most significant downsides of GPU compute is the inherent limitation of the memory model. GPUs have their own dedicated RAM, and in order to operate on data we must first transfer it to the GPU and then transfer results back to the CPU. This can eliminate the benefit of GPU programming for certain workloads, and makes the task of writing efficient code for GPU much more complicated.
 
-3)  What is the average running time of your program?
-
-4)  What are the expected output results when I run your program?
-
-5)  Any descriptions which may help me to compile, run, and verify your
-    answers. (FYI: I check every programming assignment turned in!)
-
-Zip all you source code, project files, supporting files, and README.txt
-and submit the all-in-one zip file together to the D2L Dropbox. If you
-have any questions about the homework, please let me know.
-
-(10 points) What are the strengths and limitations of GPU programing?
+Problem 2
+=========
 
 (15 points) Among the four parallel frameworks, multithreaded
 programming, MPI programming, openMP programming, and GPU programming
@@ -72,3 +59,29 @@ The “acceptable” identifier must meet the following constraints:
         framework at your choice (e.g., CUDA, OpenCL, etc.)
 
 
+
+Due: Dec 10, by Midnight 2019
+
+Total: 100 points
+
+Note: For all the programming assignments, you can choose any operating
+systems you want. I will usually provide C/C++ samples for the
+programming assignments. If you prefer to use other languages, e.g.,
+Java, they are accepted too. A README.txt is required to submit any
+programming assignments. In the README.txt, you need to provide the
+following information:
+
+1)  How to compile your program?
+
+2)  How to run your program?
+
+3)  What is the average running time of your program?
+
+4)  What are the expected output results when I run your program?
+
+5)  Any descriptions which may help me to compile, run, and verify your
+    answers. (FYI: I check every programming assignment turned in!)
+
+Zip all you source code, project files, supporting files, and README.txt
+and submit the all-in-one zip file together to the D2L Dropbox. If you
+have any questions about the homework, please let me know.
