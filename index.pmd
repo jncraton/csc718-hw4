@@ -45,11 +45,42 @@ Problem 3
 
 > (10 points) Benchmarking of a sequential program reveals that 95 percent of the execution time is spent inside functions that are amendable to parallelization. What is the maximum speed up we could expect from executing a parallel version of this program on 10 processors?
 
-(65 points) Programming Assignment: A small college wishes to assign
-unique identification numbers to all of its present and future students.
-The administration is thinking of using a given various constraints that
-have been placed on what is considered to be an “acceptable” identifier.
-The “acceptable” identifier must meet the following constraints:
+We know that there is 5% of the program that we cannot improve via parallelism. This tells us immediately that a 20x speedup is the most we could expect using infinite processors. Let's calculate what we could get with 10.
+
+Let's build a function with some unit tests to calculate this for us:
+
+```python
+def calc_speedup(sequential, parallel, num_threads):
+  """
+  Calculates possible speedup from parallelizing section using `num_threads`
+
+  >>> calc_speedup(1.0, 0.0, 10000)
+  1.0
+
+  >>> calc_speedup(0.0, 1.0, 10000)
+  10000.0
+
+  >>> calc_speedup(0.5, 0.5, 4)
+  1.6
+  """
+
+  new_runtime = sequential + parallel / num_threads
+
+  return 1.0/new_runtime
+```
+
+With that implemented, we can simply calculate our result:
+
+```python
+calc_speedup(0.05, 0.95, 10)
+```
+
+We can anticipate a speedup of less than 7x.
+
+Problem 4
+=========
+
+> (65 points) Programming Assignment: A small college wishes to assign unique identification numbers to all of its present and future students. The administration is thinking of using a given various constraints that have been placed on what is considered to be an “acceptable” identifier. The “acceptable” identifier must meet the following constraints:
 
 -   The identifier is a six-digit combination of the numerals 0-9
 
