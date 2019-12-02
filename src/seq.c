@@ -2,23 +2,13 @@
 #include <stdlib.h>
 #include <assert.h>
 
-int has_repetition(int num) {
-  char buf[10];
-  sprintf(buf, "%d", num);
-
-  for (int i = 1; i < 6; i++) {
-    if (buf[i-1] == buf[i]) { return 1; }
-  }
-
-  return 0;
-}
-
-int has_valid_sum(int num) {
+int is_valid(int num) {
   int sum = 0;
   char buf[10];
   sprintf(buf, "%d", num);
 
   for (int i = 0; i < 6; i++) {
+    if (i > 0 && buf[i-1] == buf[i]) { return 0; }
     sum += buf[i] - 48;
   }
 
@@ -26,21 +16,23 @@ int has_valid_sum(int num) {
 }
 
 void test() {
-  assert(has_repetition(999999));
-  assert(has_repetition(123455));
-  assert(has_repetition(112345));
-  assert(has_repetition(123345));
-  assert(!has_repetition(123456));
-  assert(!has_repetition(987565));
+  // Repetition tests
+  assert(!is_valid(999999));
+  assert(!is_valid(123455));
+  assert(!is_valid(112345));
+  assert(!is_valid(123345));
+  assert(is_valid(123456));
+  assert(is_valid(987565));
 
-  assert(has_valid_sum(111111));
-  assert(has_valid_sum(123456));
-  assert(has_valid_sum(869205));
-  assert(!has_valid_sum(111112));
-  assert(!has_valid_sum(115112));
-  assert(!has_valid_sum(111116));
-  assert(!has_valid_sum(111118));
-  assert(!has_valid_sum(611311));
+  // Sum tests
+  assert(is_valid(101010));
+  assert(is_valid(123456));
+  assert(is_valid(869205));
+  assert(!is_valid(101032));
+  assert(!is_valid(205202));
+  assert(!is_valid(202016));
+  assert(!is_valid(202018));
+  assert(!is_valid(620320));
 }
 
 int main() {
@@ -57,7 +49,7 @@ int main() {
 
   // Loop conditions enforce the first two requirements
   for (i = 100000; i <= 999999; i++) {
-    if (!has_repetition(i) && has_valid_sum(i)) {
+    if (is_valid(i)) {
       sum++;
     }
   }
