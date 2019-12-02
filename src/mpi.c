@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <mpi.h>
 
 int is_valid(int num) {
   int sum = 0;
@@ -35,10 +36,16 @@ void test() {
   assert(!is_valid(620320));
 }
 
-int main() {
-  int i, sum, count;
+int main(int argc, char **argv) {
+  int id, i, count=0, global_count, num_procs;
 
   test();
+
+  MPI_Init (&argc, &argv);
+  MPI_Barrier(MPI_COMM_WORLD);
+
+  MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
+  MPI_Comm_rank (MPI_COMM_WORLD, &id);
 
   /*
   1. The identifier is a six-digit combination of the numerals 0-9
@@ -48,11 +55,14 @@ int main() {
   */
 
   // Loop conditions enforce the first two requirements
-  for (i = 100000; i <= 999999; i++) {
+  for (i = 100000+id; i <= 999999; i+=num_procs) {
     if (is_valid(i)) {
-      sum++;
+      count++;
     }
   }
 
-  printf("Sum: %d\n", sum);
+  MPI_Reduce (&count, &global_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+  MPI_Finalize();
+
+  if (!id) printf("Count: %d\n", global_count);
 }

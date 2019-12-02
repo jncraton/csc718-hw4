@@ -5,5 +5,8 @@ seq: seq.c
 	./seq
 
 mpi: mpi.c
-	mpicc seq.c -o mpi
+	mpicc mpi.c -o mpi
 	mpirun -n 4 ./mpi
+
+clean:
+	rm -f seq mpi
