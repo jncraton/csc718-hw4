@@ -94,6 +94,8 @@ Part 1
 
 > (15 points) Write a sequential program to count the different identifiers given these constraints.
 
+The average runtime for the sequential version of the program was 0.059 seconds per iteration.
+
 This program can be found in `src/seq.c`. It is also included inline here:
 
 ```c
@@ -146,10 +148,13 @@ int main() {
   4. The sum of the digits may not be 7, 11, or 13.
   */
 
-  // Loop conditions enforce the first two requirements
-  for (i = 100000; i <= 999999; i++) {
-    if (is_valid(i)) {
-      sum++;
+  for (int runs=0; runs < 100; runs++) {
+    sum=0;
+    // Loop conditions enforce the first two requirements
+    for (i = 100000; i <= 999999; i++) {
+      if (is_valid(i)) {
+        sum++;
+      }
     }
   }
 
@@ -161,6 +166,8 @@ Part 2
 ------
 
 > (25 points) Convert the sequential program to an MPI parallel program.
+
+This version of the program runs in .029 seconds per iteration using 4 processes. This is nearly double the single processor performance.
 
 The code for this located in `src/mpi.c`. It is also included inline here:
 
@@ -221,10 +228,13 @@ int main(int argc, char **argv) {
   4. The sum of the digits may not be 7, 11, or 13.
   */
 
-  // Loop conditions enforce the first two requirements
-  for (i = 100000+id; i <= 999999; i+=num_procs) {
-    if (is_valid(i)) {
-      count++;
+  for (int runs=0; runs < 100; runs++) {
+    count=0;
+    // Loop conditions enforce the first two requirements
+    for (i = 100000+id; i <= 999999; i+=num_procs) {
+      if (is_valid(i)) {
+        count++;
+      }
     }
   }
 
@@ -244,7 +254,9 @@ Part 3
 > 
 > B. Convert the sequential program to a GPU program using a parallel framework at your choice (e.g., CUDA, OpenCL, etc.)
 
-The openMP implementation is available in `src/omp.c`. The source is also included inline here:
+The openMP implementation is available in `src/omp.c`. It takes an average of 0.014 seconds per iteration using 4 threads approaching a 4x improvement over the sequential version.
+
+The source is included inline here:
 
 ```c
 #include <stdio.h>
@@ -299,11 +311,14 @@ int main() {
 
   omp_set_num_threads(4);
 
-  // Loop conditions enforce the first two requirements
-  #pragma omp parallel for private(i) reduction(+: sum)
-  for (i = 100000; i <= 999999; i++) {
-    if (is_valid(i)) {
-      sum++;
+  for (int runs=0; runs < 100; runs++) {
+    sum=0;
+    // Loop conditions enforce the first two requirements
+    #pragma omp parallel for private(i) reduction(+: sum)
+    for (i = 100000; i <= 999999; i++) {
+      if (is_valid(i)) {
+        sum++;
+      }
     }
   }
 

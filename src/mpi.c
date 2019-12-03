@@ -54,10 +54,13 @@ int main(int argc, char **argv) {
   4. The sum of the digits may not be 7, 11, or 13.
   */
 
-  // Loop conditions enforce the first two requirements
-  for (i = 100000+id; i <= 999999; i+=num_procs) {
-    if (is_valid(i)) {
-      count++;
+  for (int runs=0; runs < 100; runs++) {
+    count=0;
+    // Loop conditions enforce the first two requirements
+    for (i = 100000+id; i <= 999999; i+=num_procs) {
+      if (is_valid(i)) {
+        count++;
+      }
     }
   }
 

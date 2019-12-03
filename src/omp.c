@@ -50,11 +50,14 @@ int main() {
 
   omp_set_num_threads(4);
 
-  // Loop conditions enforce the first two requirements
-  #pragma omp parallel for private(i) reduction(+: sum)
-  for (i = 100000; i <= 999999; i++) {
-    if (is_valid(i)) {
-      sum++;
+  for (int runs=0; runs < 100; runs++) {
+    sum=0;
+    // Loop conditions enforce the first two requirements
+    #pragma omp parallel for private(i) reduction(+: sum)
+    for (i = 100000; i <= 999999; i++) {
+      if (is_valid(i)) {
+        sum++;
+      }
     }
   }
 

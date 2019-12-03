@@ -47,10 +47,13 @@ int main() {
   4. The sum of the digits may not be 7, 11, or 13.
   */
 
-  // Loop conditions enforce the first two requirements
-  for (i = 100000; i <= 999999; i++) {
-    if (is_valid(i)) {
-      sum++;
+  for (int runs=0; runs < 100; runs++) {
+    sum=0;
+    // Loop conditions enforce the first two requirements
+    for (i = 100000; i <= 999999; i++) {
+      if (is_valid(i)) {
+        sum++;
+      }
     }
   }
 
