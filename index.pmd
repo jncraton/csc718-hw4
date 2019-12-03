@@ -325,29 +325,3 @@ int main() {
   printf("Sum: %d\n", sum);
 }
 ```
-
-Due: Dec 10, by Midnight 2019
-
-Total: 100 points
-
-Note: For all the programming assignments, you can choose any operating
-systems you want. I will usually provide C/C++ samples for the
-programming assignments. If you prefer to use other languages, e.g.,
-Java, they are accepted too. A README.txt is required to submit any
-programming assignments. In the README.txt, you need to provide the
-following information:
-
-1)  How to compile your program?
-
-2)  How to run your program?
-
-3)  What is the average running time of your program?
-
-4)  What are the expected output results when I run your program?
-
-5)  Any descriptions which may help me to compile, run, and verify your
-    answers. (FYI: I check every programming assignment turned in!)
-
-Zip all you source code, project files, supporting files, and README.txt
-and submit the all-in-one zip file together to the D2L Dropbox. If you
-have any questions about the homework, please let me know.
