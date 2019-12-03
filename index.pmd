@@ -9,13 +9,13 @@ Problem 1
 
 GPU programming is very well suited for large numbers of floating point operations that can be executed in parallel. Historically, GPUs were design for rasterization of a large number of polygons into a frame of pixels to be displayed on screen. This process is inherently parallel and uses floating point operations exclusively, so GPUs have been optimized with this workload in mind.
 
-GPUs are not well suited for integer calculations or branching. If code make heavy use of integer operations and branching it may not be well suited to run on a GPU or may need to be reworked significantly before it can run effectively.
+GPUs are not well suited for calculations involving a lot of branching, and may not be as well suited for integer operations. If code makes heavy use of integer operations or branching it may not be well suited to run on a GPU or may need to be reworked significantly before it can run effectively.
+
+One of the most significant downsides of GPU compute is the inherent limitation of the memory model. GPUs have their own dedicated RAM, and in order to operate on data we must first transfer it to the GPU and then transfer results back to the CPU. This can eliminate the benefit of GPU programming for certain workloads, and makes the task of writing efficient code for GPU much more complicated.
 
 GPUs provide incredible numbers of raw floating point operations per second (FLOPS). My CPU can perform a few hundred GFLOPs in ideal conditions, while my GPU is cabable of over an order of magnitude more by computing at several TFLOPs.
 
-Part of the reason that GPUs are able to achieve this speed is by using a massively parallel architecture. GPUs may have thousands of compute nodes, while CPUs almost exclusively contain fewer than 100. In additional GPU compute makes extensive use of vector instructions to operate on many values at once. Modern x86 CPUs are limited to operating on 16 values at once due to the size of cache lines and limitation of the AVX-512 instruction set. GPUs do not share this limitation.
-
-One of the most significant downsides of GPU compute is the inherent limitation of the memory model. GPUs have their own dedicated RAM, and in order to operate on data we must first transfer it to the GPU and then transfer results back to the CPU. This can eliminate the benefit of GPU programming for certain workloads, and makes the task of writing efficient code for GPU much more complicated.
+Part of the reason that GPUs are able to achieve this speed is by using a massively parallel architecture. GPUs may have thousands of compute nodes, while CPUs almost exclusively contain fewer than 100. In addition, GPU compute makes extensive use of vector instructions to operate on many values at once. Modern x86 CPUs are limited to operating on 16 values at once due to the size of cache lines and limitations of the AVX-512 instruction set. GPUs do not share this limitation and can operate on many data values at once.
 
 Problem 2
 =========
@@ -26,17 +26,17 @@ For me, the first step will be thinking about what the workload looks like for a
 
 If they can be run in parallel, I'll think about several other considerations:
 
-1. How much is shared memory a requirement? If all data is dependent on all other data, multi-machine NUMA architectures (MPI) may not be effective.
-2. Is my workload mostly floating point with few branches? If not, GPUs may not be helpful.
+1. How much is shared memory a requirement? If all data is dependent on all other data, multi-machine NUMA architectures using MPI may not be effective.
+2. Is my workload mostly floating point with few branches? If not, GPUs may not be especially helpful. GPUs are best suited to problems where we can offload a massive number of paralell floating point operations.
 3. What compute resources are available? If I don't have a cluster at my disposal, the benefits of MPI are limited compared to shared memory architecures.
 4. Do I need total control? I'd favor using OpenMP over direct multithreaded programming unless I have a compelling reason to need that level of control.
 
 In essense, here's what I'd do:
 
-1. Look for time consuming sections of code that can be run in parallel. If they don't exist, wait a long time for execution or work on a tractable problem.
+1. Look for time consuming sections of code that can be run in parallel. If they don't exist, wait a long time for execution or work on a more tractable problem.
 2. Favor OpenMP over raw threaded programming. OpenMP is relatively quick and easy and can improve speed significantly.
 3. If I have a cluster available, and my workload is ammenable to NUMA, try OpenMPI.
-4. If I have a GPU available, and my workload uses floating point, try GPU programming.
+4. If I have a GPU available, and my workload is mostly parallel floating point operations, try GPU programming.
 
 These can all be combined. A modern supercomputer will contain thousands of nodes, each with GPUs, so we'll likely need to employ multiprocessor message passing and GPU programming to fully optimize performance.
 
