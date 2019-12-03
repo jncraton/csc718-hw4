@@ -1,12 +1,16 @@
-all: seq mpi
+all: omp seq mpi
 
 seq: seq.c
-	gcc seq.c -o seq
-	./seq
+	gcc $< -o $@
+	time ./$@
+
+omp: omp.c
+	gcc $< -fopenmp -o $@
+	time ./$@
 
 mpi: mpi.c
 	mpicc mpi.c -o mpi
-	mpirun -n 4 ./mpi
+	time mpirun -np 4 ./mpi
 
 clean:
-	rm -f seq mpi
+	rm -f seq mpi omp
