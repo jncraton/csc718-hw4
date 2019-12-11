@@ -4,7 +4,7 @@
 
 int is_valid(unsigned int num) {
   int sum = 0;
-  char buf[10];
+  char buf[11];
   sprintf(buf, "%u", num);
 
   for (int i = 0; i < 6; i++) {
