@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <assert.h>
 
-int is_valid(int num) {
+int is_valid(unsigned int num) {
   int sum = 0;
   char buf[10];
-  sprintf(buf, "%d", num);
+  sprintf(buf, "%u", num);
 
   for (int i = 0; i < 6; i++) {
     if (i > 0 && buf[i-1] == buf[i]) { return 0; }
@@ -33,6 +33,10 @@ void test() {
   assert(!is_valid(202016));
   assert(!is_valid(202018));
   assert(!is_valid(620320));
+
+  // Buffer overflow test
+  assert(is_valid(-1111111111));
+  assert(is_valid(1212121212));
 }
 
 int main() {
